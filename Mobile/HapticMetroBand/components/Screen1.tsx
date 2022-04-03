@@ -4,6 +4,7 @@ import { Text, View, TextInput } from "react-native";
 import styles from "../styles";
 import colors from "../colors";
 import Button from "./Button";
+import TimeSignature from "./TimeSignature";
 
 export default function Screen1({ style, ...otherProps }: { style: any }) {
   const on = (): void => {
@@ -32,6 +33,9 @@ export default function Screen1({ style, ...otherProps }: { style: any }) {
         onPress={off}
         innerTextColor={colors.primaryContrast}
       ></Button>
+      <Text style={style}>Time Signature:</Text>
+      <TimeSignature />
+      <TextInput placeholder="Tempo" style={styles.inputBox} />
     </View>
   );
 }

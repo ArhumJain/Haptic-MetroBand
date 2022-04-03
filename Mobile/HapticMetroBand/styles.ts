@@ -22,4 +22,12 @@ export default StyleSheet.create({
   screen: {
     color: colors.primary,
   },
+  inputBox: {
+    backgroundColor: colors.primary,
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    color: colors.primaryContrast,
+    marginVertical: 10,
+  },
 });
