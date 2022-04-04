@@ -1,12 +1,12 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import colors from "./colors";
+import colors from "./Colors";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    // justifyContent: "center",
+    justifyContent: "center",
     backgroundColor: colors.secondary,
   },
   button: {

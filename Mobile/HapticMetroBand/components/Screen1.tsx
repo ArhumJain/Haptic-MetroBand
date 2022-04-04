@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Text, View, TextInput } from "react-native";
-import styles from "../styles";
-import colors from "../colors";
+import styles from "../Styles";
+import colors from "../Colors";
 import Button from "./Button";
 import TimeSignature from "./TimeSignature";
 

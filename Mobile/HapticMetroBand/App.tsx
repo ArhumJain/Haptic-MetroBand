@@ -3,16 +3,14 @@ import { StatusBar } from "expo-status-bar";
 import { Text, View, StyleSheet, Pressable, SafeAreaView } from "react-native";
 import Screen1 from "./components/Screen1";
 import Button from "./components/Button";
-import colors from "./colors";
-import styles from "./styles";
+import colors from "./Colors";
+import styles from "./Styles";
 
 export default function App(): JSX.Element {
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
-      <SafeAreaView style={styles.container}>
-        <Screen1 style={styles.screen} />
-      </SafeAreaView>
-    </View>
+      <Screen1 style={styles.screen} />
+    </SafeAreaView>
   );
 }

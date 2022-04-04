@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable, Text } from "react-native";
-import colors from "../colors";
-import styles from "../styles";
+import colors from "../Colors";
+import styles from "../Styles";
 export default function Button({
   style,
   text,
