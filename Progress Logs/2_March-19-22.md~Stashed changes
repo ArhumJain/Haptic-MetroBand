@@ -1,0 +1,8 @@
+### Entry 2: 03/19/2022
+
+- Research about inputting/outputting serialized data for communication between Arduino and other devices through **Bluetooth**
+- Familiarized with PuTTY, software for hardware communication
+- Solved issue with Bluetooth and Arduino uploads not working
+  - RX/TX pins on Arduino connect with same serial pins from the USB-B port so USB cannot be connected to a computer as it breaks data transferring while the BT Module is connected to RX/TX.
+  - Thankfully this enables wireless code uploads via Bluetooth so the inconvenience of unplugging RX/TX (To upload code) and then replugging is nullified
+- Developed simple Python UI application to send on/off signals to the Arduino and toggle the vibration motor
