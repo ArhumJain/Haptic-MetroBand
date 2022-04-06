@@ -7,22 +7,25 @@ export default function Button({
   text,
   innerTextColor,
   onPress,
+  isDisabled,
   ...otherProps
 }: {
   style: any;
   text: string;
   innerTextColor: string;
   onPress: any;
+  isDisabled: boolean;
 }) {
   return (
     <Pressable
       style={({ pressed }) => {
         return [
-          { backgroundColor: pressed ? colors.primaryDark : colors.primary },
+          { backgroundColor: pressed ? colors.primaryDark : (isDisabled ? colors.disabled : colors.primary) },
           styles.button,
         ];
       }}
       onPress={onPress}
+      disabled={isDisabled}
     >
       <Text style={{ color: innerTextColor, fontWeight: "bold", fontSize: 30 }}>
         {text}

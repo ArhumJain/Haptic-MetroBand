@@ -3,4 +3,5 @@ export default {
   primary: "#CEE5F2",
   primaryDark: "#BDD8EA",
   primaryContrast: "#222A2F",
+  disabled: "#9FABB3"
 };

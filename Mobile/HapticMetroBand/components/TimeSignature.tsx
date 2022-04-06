@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput, View } from "react-native";
-import styles from "../styles";
+import styles from "../Styles";
 
 export default function TimeSignature(): JSX.Element {
   return (

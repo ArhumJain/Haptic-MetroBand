@@ -2,8 +2,6 @@ import React, { ReactElement } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Text, View, StyleSheet, Pressable, SafeAreaView } from "react-native";
 import Screen1 from "./components/Screen1";
-import Button from "./components/Button";
-import colors from "./Colors";
 import styles from "./Styles";
 
 export default function App(): JSX.Element {
