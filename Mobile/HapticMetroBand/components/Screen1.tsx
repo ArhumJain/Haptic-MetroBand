@@ -6,11 +6,7 @@ import Button from "./Button";
 import TimeSignature from "./TimeSignature";
 import HapticBluetooth from "../HapticBluetooth";
 import useInterval from "../use_interval";
-interface timeFace {
-  milliseconds: string | number;
-  seconds: string | number;
-  minutes: string | number;
-}
+import Timer from "./Timer";
 export default function Screen1({ style, ...otherProps }: { style: any }) {
   const [isPaired, setPaired] = useState("Not paired");
 
@@ -19,43 +15,22 @@ export default function Screen1({ style, ...otherProps }: { style: any }) {
 
   const [toggleStatus, setToggleStatus] = useState("Start");
   const [toggleDisabled, setToggleDisabled] = useState(true);
-  const [isRunning, setIsRunning] = useState(false);
-  const [prevTime, setPrevTime] = useState<number | null>(null);
-  const [timeInMilliseconds, setTimeInMilliseconds] = useState(0);
-  const [time, setTime] = useState<timeFace | null>(null);
-  let interval = 1;
-  useInterval(
-    () => {
-      let prev = prevTime ? prevTime : Date.now();
-      let diffTime = Date.now() - prev;
-      let newMilliTime = timeInMilliseconds + diffTime;
-      let newTime: timeFace = toTime(newMilliTime);
-      setPrevTime(Date.now());
-      setTimeInMilliseconds(newMilliTime);
-      setTime(newTime);
-    },
-    isRunning ? interval : null
-  );
 
-  const handleTime = () => {
-    setIsRunning(!isRunning);
-    setPrevTime(0);
+  const [bpm, setBpm] = useState(4);
+  const [quarterNoteValue, setQuarterNoteValue] = useState(4);
+  const [tempo, setTempo] = useState(60);
+
+  // #region Change Handlers
+  const handleBPMChange = (bpm: string) => {
+    setBpm(parseInt(bpm));
   };
 
-  const toTime = (time: number) => {
-    let milliseconds = time % 1000,
-      seconds = Math.floor((time / 1000) % 60),
-      minutes = Math.floor(time / (1000 * 60));
-
-    let minutesText = minutes < 10 ? "0" + minutes : minutes;
-    let secondsText = seconds < 10 ? "0" + seconds : seconds;
-
-    return {
-      milliseconds,
-      seconds: secondsText,
-      minutes: minutesText,
-    };
+  const handleQuarterNoteValueChange = (qNV: string) => {
+    setQuarterNoteValue(parseInt(qNV));
   };
+  // #endregion
+
+  // #region Bluetooth
   const toggle = (): void => {
     if (toggleStatus == "Start") {
       setToggleStatus("Off");
@@ -92,6 +67,7 @@ export default function Screen1({ style, ...otherProps }: { style: any }) {
 
     console.log("Connected!");
   };
+  // #endregion
 
   return (
     <View>
@@ -124,11 +100,27 @@ export default function Screen1({ style, ...otherProps }: { style: any }) {
       ></Button>
 
       <Text style={style}>Time Signature:</Text>
-      <TimeSignature />
-      <TextInput placeholder="Tempo" style={styles.inputBox} />
+      <TimeSignature
+        parentBPMChange={handleBPMChange}
+        parentQuarterNoteValueChange={handleQuarterNoteValueChange}
+      />
+      <TextInput
+        placeholder="Tempo"
+        style={styles.inputBox}
+        keyboardType="numeric"
+        onChangeText={(newTempo) => {
+          setTempo(parseInt(newTempo));
+        }}
+      />
 
       <Text style={style}>{"Paired status (HC-06 found): " + isPaired}</Text>
       <Text style={style}>{"Connected status: " + isConnected}</Text>
+      <Timer
+        style={styles.button}
+        bpm={bpm}
+        quarterNoteValue={quarterNoteValue}
+        tempo={tempo}
+      />
     </View>
   );
 }
