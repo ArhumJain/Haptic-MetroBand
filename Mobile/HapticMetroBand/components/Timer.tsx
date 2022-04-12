@@ -53,10 +53,18 @@ export default function Timer({
       setTime(newTime);
       if (checkForBeat()) {
         // send Beat
-        HapticBluetooth.writeToRemote("1");
+        try {
+          HapticBluetooth.writeToRemote("1");
+        } catch (e) {
+          console.log("beat");
+        }
         setTimeout(() => {
-          HapticBluetooth.writeToRemote("0");
-        }, 100);
+          try {
+            HapticBluetooth.writeToRemote("0");
+          } catch (e) {
+            console.log("beat end");
+          }
+        }, 190);
         console.log("Beat", count);
       }
       setCount(normalizeCount(count));
