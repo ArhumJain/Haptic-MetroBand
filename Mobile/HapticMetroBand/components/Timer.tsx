@@ -3,7 +3,7 @@ import { Pressable, TargetedEvent, Text, View } from "react-native";
 import colors from "../Colors";
 import styles from "../Styles";
 import { useState } from "react";
-import useInterval from "../use_interval";
+import useInterval from "../UseInterval";
 import Button from "./Button";
 import HapticBluetooth from "../HapticBluetooth";
 interface timeFace {
@@ -41,43 +41,16 @@ export default function Timer({
     return target - margin <= value && value <= target + margin;
   };
 
-  useInterval(
-    () => {
-      // Every 1/3 of a real second, increment the count
-      if (count % 4 == 0) {
+  useInterval(() => {
+      if (count % 4 == 0)  {
         HapticBluetooth.writeToRemote("2");
-        console.log("DAH");
       } else {
         HapticBluetooth.writeToRemote("1");
         console.log("DUH");
-        
+      }
       setTimeout(() => {
         HapticBluetooth.writeToRemote("0");
       }, 100);
-//       let prev = prevTime ? prevTime : Date.now();
-//       let diffTime = Date.now() - prev;
-//       let newMilliTime = timeInMilliseconds + diffTime;
-//       let newTime: timeFace = toTime(newMilliTime);
-//       setPrevTime(Date.now());
-//       setTimeInMilliseconds(newMilliTime);
-//       setTime(newTime);
-//       if (checkForBeat()) {
-//         // send Beat
-//         try {
-//           HapticBluetooth.writeToRemote("1");
-//         } catch (e) {
-//           console.log("beat");
-//         }
-//         setTimeout(() => {
-//           try {
-//             HapticBluetooth.writeToRemote("0");
-//           } catch (e) {
-//             console.log("beat end");
-//           }
-//         }, 190);
-//         console.log("Beat", count);
-//       }
-//       setCount(normalizeCount(count));
     },
     isRunning ? interval : null
   );
