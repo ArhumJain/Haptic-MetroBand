@@ -44,6 +44,7 @@ export default function Timer({
   useInterval(() => {
       if (count % 4 == 0)  {
         HapticBluetooth.writeToRemote("2");
+        console.log("DAAAAAAAAAAAAAAAAAH");
       } else {
         HapticBluetooth.writeToRemote("1");
         console.log("DUH");
@@ -51,6 +52,7 @@ export default function Timer({
       setTimeout(() => {
         HapticBluetooth.writeToRemote("0");
       }, 100);
+      setCount(count+1)
     },
     isRunning ? interval : null
   );
