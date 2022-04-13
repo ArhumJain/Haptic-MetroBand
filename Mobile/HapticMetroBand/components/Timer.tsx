@@ -44,60 +44,40 @@ export default function Timer({
   useInterval(
     () => {
       // Every 1/3 of a real second, increment the count
-<<<<<<< HEAD
-      // let prev = prevTime ? prevTime : Date.now();
-      // let diffTime = Date.now() - prev;
-      // let newMilliTime = timeInMilliseconds + diffTime;
-      // let newTime: timeFace = toTime(newMilliTime);
-      // setPrevTime(Date.now());
-      // setTimeInMilliseconds(newMilliTime);
-      // setTime(newTime);
-
       if (count % 4 == 0) {
         HapticBluetooth.writeToRemote("2");
         console.log("DAH");
       } else {
         HapticBluetooth.writeToRemote("1");
         console.log("DUH");
-=======
-      let prev = prevTime ? prevTime : Date.now();
-      let diffTime = Date.now() - prev;
-      let newMilliTime = timeInMilliseconds + diffTime;
-      let newTime: timeFace = toTime(newMilliTime);
-      setPrevTime(Date.now());
-      setTimeInMilliseconds(newMilliTime);
-      setTime(newTime);
-      if (checkForBeat()) {
-        // send Beat
-        try {
-          HapticBluetooth.writeToRemote("1");
-        } catch (e) {
-          console.log("beat");
-        }
-        setTimeout(() => {
-          try {
-            HapticBluetooth.writeToRemote("0");
-          } catch (e) {
-            console.log("beat end");
-          }
-        }, 190);
-        console.log("Beat", count);
->>>>>>> 82cec5df3184eb18316e58847895d22433bf4a73
-      }
+        
       setTimeout(() => {
         HapticBluetooth.writeToRemote("0");
       }, 100);
-      setCount(count+1);
-      // console.log("Beat", count);
-      // if (checkForBeat()) {
-      //   // send Beat
-      //   HapticBluetooth.writeToRemote("1");
-      //   setTimeout(() => {
-      //     HapticBluetooth.writeToRemote("0");
-      //   }, 100);
-      //   console.log("Beat", count);
-      // }
-      // setCount(normalizeCount(count));
+//       let prev = prevTime ? prevTime : Date.now();
+//       let diffTime = Date.now() - prev;
+//       let newMilliTime = timeInMilliseconds + diffTime;
+//       let newTime: timeFace = toTime(newMilliTime);
+//       setPrevTime(Date.now());
+//       setTimeInMilliseconds(newMilliTime);
+//       setTime(newTime);
+//       if (checkForBeat()) {
+//         // send Beat
+//         try {
+//           HapticBluetooth.writeToRemote("1");
+//         } catch (e) {
+//           console.log("beat");
+//         }
+//         setTimeout(() => {
+//           try {
+//             HapticBluetooth.writeToRemote("0");
+//           } catch (e) {
+//             console.log("beat end");
+//           }
+//         }, 190);
+//         console.log("Beat", count);
+//       }
+//       setCount(normalizeCount(count));
     },
     isRunning ? interval : null
   );
