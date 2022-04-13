@@ -35,37 +35,50 @@ export default function Timer({
   const [beatSeparation, setBeatSeparation] = useState<number>(
     (60 / tempo) * 1000
   );
-  let interval = 1;
+  let interval = 1000;
 
-  const inrange = (target: number, margin: number, value: number) => {
+  const inRange = (target: number, margin: number, value: number) => {
     return target - margin <= value && value <= target + margin;
   };
 
   useInterval(
     () => {
       // Every 1/3 of a real second, increment the count
-      let prev = prevTime ? prevTime : Date.now();
-      let diffTime = Date.now() - prev;
-      let newMilliTime = timeInMilliseconds + diffTime;
-      let newTime: timeFace = toTime(newMilliTime);
-      setPrevTime(Date.now());
-      setTimeInMilliseconds(newMilliTime);
-      setTime(newTime);
-      if (checkForBeat()) {
-        // send Beat
+      // let prev = prevTime ? prevTime : Date.now();
+      // let diffTime = Date.now() - prev;
+      // let newMilliTime = timeInMilliseconds + diffTime;
+      // let newTime: timeFace = toTime(newMilliTime);
+      // setPrevTime(Date.now());
+      // setTimeInMilliseconds(newMilliTime);
+      // setTime(newTime);
+
+      if (count % 4 == 0) {
+        HapticBluetooth.writeToRemote("2");
+        console.log("DAH");
+      } else {
         HapticBluetooth.writeToRemote("1");
-        setTimeout(() => {
-          HapticBluetooth.writeToRemote("0");
-        }, 100);
-        console.log("Beat", count);
+        console.log("DUH");
       }
-      setCount(normalizeCount(count));
+      setTimeout(() => {
+        HapticBluetooth.writeToRemote("0");
+      }, 100);
+      setCount(count+1);
+      // console.log("Beat", count);
+      // if (checkForBeat()) {
+      //   // send Beat
+      //   HapticBluetooth.writeToRemote("1");
+      //   setTimeout(() => {
+      //     HapticBluetooth.writeToRemote("0");
+      //   }, 100);
+      //   console.log("Beat", count);
+      // }
+      // setCount(normalizeCount(count));
     },
     isRunning ? interval : null
   );
 
   const checkForBeat = () => {
-    if (inrange(prevCountTime + beatSeparation, 100, timeInMilliseconds)) {
+    if (inRange(prevCountTime + beatSeparation, 100, timeInMilliseconds)) {
       setPrevCountTime(timeInMilliseconds);
       setCount(count + 1);
       return true;
@@ -95,7 +108,7 @@ export default function Timer({
     <View>
       <Button
         style={styles.button}
-        text="Hi"
+        text="Start metronome"
         onPress={() => {
           handleTime();
           console.log("hi", isRunning);

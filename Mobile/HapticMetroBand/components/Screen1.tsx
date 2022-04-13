@@ -5,7 +5,6 @@ import colors from "../Colors";
 import Button from "./Button";
 import TimeSignature from "./TimeSignature";
 import HapticBluetooth from "../HapticBluetooth";
-import useInterval from "../use_interval";
 import Timer from "./Timer";
 export default function Screen1({ style, ...otherProps }: { style: any }) {
   const [isPaired, setPaired] = useState("Not paired");
