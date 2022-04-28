@@ -1,5 +1,12 @@
 #define MOTOR 3 // Is a PWM pin so we can adjust intensity of vib motor
 
+unsigned long time;
+unsigned long intervalAverage = 0;
+unsigned long prevTime = 0;
+const int testLength = 60;
+int count = 0;
+int powerReceived;
+
 void setup() {
   // put your setup code here, to run once:
   pinMode(MOTOR, OUTPUT);
@@ -8,19 +15,43 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly
+  time = millis();
   if (Serial.available()) {
-    int val = Serial.read();
-    if (val == '2') {
+    powerReceived = Serial.read();
+    if (powerReceived == '2') {
       analogWrite(MOTOR, 255);
-      Serial.write("2 received");
+      // Serial.write("2 received\n");
+      if (prevTime == 0) {
+        prevTime = time;
+        count++;
+      }
+      else {
+        intervalAverage += time - prevTime;        
+        Serial.println(time-prevTime);           
+        prevTime = time;
+        count++;
+      }
     }
-    else if (val == '1') {
+
+    else if (powerReceived == '1') {
       analogWrite(MOTOR, 75);
-      Serial.write("1 received");
+      // Serial.write("1 received\n");
+      intervalAverage += time - prevTime;
+      Serial.println(time-prevTime);     
+      prevTime = time;
+      count++;
     }
-    else if (val == '0') {
+    
+    else if (powerReceived == '0') {
       analogWrite(MOTOR, 0);  
-      Serial.write("0 received");
+      // Serial.write("0 received");
     }
+  }
+
+  if (count == testLength) {
+    Serial.write("60 Beats Elapsed, Average: ");
+    Serial.println(intervalAverage/count);
+    count = 0;
+    intervalAverage = 0;
   }
 }

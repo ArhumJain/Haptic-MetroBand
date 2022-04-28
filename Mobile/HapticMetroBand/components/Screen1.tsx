@@ -74,13 +74,13 @@ export default function Screen1({ style, ...otherProps }: { style: any }) {
         Haptic MetroBand Control Panel
       </Text>
 
-      <Button
+      {/* <Button
         text={toggleStatus}
         style={[styles.button]}
         onPress={toggle}
         innerTextColor={colors.primaryContrast}
         isDisabled={toggleDisabled}
-      ></Button>
+      ></Button> */}
 
       <Button
         text="Check Paired"

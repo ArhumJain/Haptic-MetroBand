@@ -41,8 +41,9 @@ export default function Timer({
     return target - margin <= value && value <= target + margin;
   };
 
-  useInterval(() => {
-      if (count % 4 == 0)  {
+  useInterval(
+    () => {
+      if (count % 4 == 0) {
         HapticBluetooth.writeToRemote("2");
         console.log("DAAAAAAAAAAAAAAAAAH");
       } else {
@@ -52,7 +53,7 @@ export default function Timer({
       setTimeout(() => {
         HapticBluetooth.writeToRemote("0");
       }, 100);
-      setCount(count+1)
+      setCount(count + 1);
     },
     isRunning ? interval : null
   );
@@ -96,14 +97,14 @@ export default function Timer({
         innerTextColor={colors.primaryContrast}
         isDisabled={false}
       />
-      <Text style={style}>
+      {/* <Text style={style}>
         {"Time: " +
           time?.minutes +
           ":" +
           time?.seconds +
           ":" +
           time?.milliseconds}
-      </Text>
+      </Text> */}
     </View>
   );
 }
