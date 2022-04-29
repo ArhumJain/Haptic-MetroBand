@@ -35,7 +35,7 @@ export default function Timer({
   const [beatSeparation, setBeatSeparation] = useState<number>(
     (60 / tempo) * 1000
   );
-  let interval = 1000;
+  let interval = 250;
 
   const inRange = (target: number, margin: number, value: number) => {
     return target - margin <= value && value <= target + margin;

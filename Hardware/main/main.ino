@@ -47,11 +47,4 @@ void loop() {
       // Serial.write("0 received");
     }
   }
-
-  if (count == testLength) {
-    Serial.write("60 Beats Elapsed, Average: ");
-    Serial.println(intervalAverage/count);
-    count = 0;
-    intervalAverage = 0;
-  }
 }
