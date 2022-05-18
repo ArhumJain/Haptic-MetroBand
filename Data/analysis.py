@@ -2,12 +2,12 @@ import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 import numpy as np
 
-bpm60 = np.loadtxt("./60bpm.txt", delimiter="\n")
-bpm120 = np.loadtxt("./120bpm.txt", delimiter="\n")
-bpm240 = np.loadtxt("./240bpm.txt", delimiter="\n")
+bpm60 = np.loadtxt("./60met.txt", delimiter="\n")
+bpm120 = np.loadtxt("./120met.txt", delimiter="\n")
+bpm240 = np.loadtxt("./240met.txt", delimiter="\n")
 
 bpmData = [bpm60, bpm120, bpm240]
-graph = 2
+graph = 0
 
 plt.style.use('ggplot')
 
@@ -23,7 +23,7 @@ plot = ax.boxplot(bpmData[graph], patch_artist=True,
                 whiskerprops={"color": "C0", "linewidth": 1.5},
                 capprops={"color": "C0", "linewidth": 1.5}, vert=False)
 
-ax.set_title(f"Interval lengths for 120 BPM")
+ax.set_title(f"Interval lengths for 60 BPM")
 
 plt.table(
     cellText=[[round(np.mean(bpmData[graph]), 3), round(np.std(bpmData[graph]), 3), np.median(bpmData[graph]), np.size(bpmData[graph])]],
