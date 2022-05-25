@@ -98,7 +98,7 @@ export default function Screen1({ style, ...otherProps }: { style: any }) {
         isDisabled={connectDisabled}
       ></Button>
 
-      <Text style={style}>Time Signature:</Text>
+      {/* <Text style={style}>Time Signature:</Text>
       <TimeSignature
         parentBPMChange={handleBPMChange}
         parentQuarterNoteValueChange={handleQuarterNoteValueChange}
@@ -110,7 +110,7 @@ export default function Screen1({ style, ...otherProps }: { style: any }) {
         onChangeText={(newTempo) => {
           setTempo(parseInt(newTempo));
         }}
-      />
+      /> */}
 
       <Text style={style}>{"Paired status (HC-06 found): " + isPaired}</Text>
       <Text style={style}>{"Connected status: " + isConnected}</Text>
@@ -119,7 +119,8 @@ export default function Screen1({ style, ...otherProps }: { style: any }) {
         bpm={bpm}
         quarterNoteValue={quarterNoteValue}
         tempo={tempo}
-      />
+        disabled={connectDisabled}
+      />  
     </View>
   );
 }

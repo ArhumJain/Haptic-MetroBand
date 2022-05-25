@@ -18,6 +18,14 @@ export default StyleSheet.create({
     borderRadius: 15,
     elevation: 3,
     marginVertical: 10,
+    marginHorizontal: 10,
+  },
+  inline: {
+    flex: 1,
+    flexDirection: "row",
+    borderRadius: 15,
+    marginVertical: 10,
+
   },
   screen: {
     color: colors.primary,
