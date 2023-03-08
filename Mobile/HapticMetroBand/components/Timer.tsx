@@ -1,9 +1,15 @@
 import React from "react";
-import { Pressable, TargetedEvent, Text, View } from "react-native";
+import {
+  DatePickerIOSBase,
+  Pressable,
+  TargetedEvent,
+  Text,
+  View,
+} from "react-native";
 import colors from "../Colors";
 import styles from "../Styles";
 import { useState } from "react";
-import useInterval from "../use_interval";
+import useInterval from "../UseInterval";
 import Button from "./Button";
 import HapticBluetooth from "../HapticBluetooth";
 interface timeFace {
@@ -16,95 +22,88 @@ export default function Timer({
   bpm,
   quarterNoteValue,
   tempo,
+  disabled,
   ...otherProps
 }: {
   style: any;
   bpm: number;
   quarterNoteValue: number;
   tempo: number;
+  disabled: boolean;
 }) {
   const [count, setCount] = React.useState<number>(0);
 
   const normalizeCount = (count: number) => count % bpm;
 
-  const [isRunning, setIsRunning] = useState(false);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [startText, setStartText] = useState<string>("Start");
   const [prevTime, setPrevTime] = useState<number | null>(null);
   const [timeInMilliseconds, setTimeInMilliseconds] = useState(0);
   const [time, setTime] = useState<timeFace | null>(null);
   const [beatSeparation, setBeatSeparation] = useState<number>(
     (60 / tempo) * 1000
   );
-  let interval = 1;
-
-  const inrange = (target: number, margin: number, value: number) => {
+  // let interval = 250;
+  const [interval, setMetroInterval] = useState<number>(1000);
+  const [BPM, setBPM] = useState<number>(60);
+  const [tempoChangeEnabled, setTempoChangeEnabled] = useState<boolean>(true);
+  const inRange = (target: number, margin: number, value: number) => {
     return target - margin <= value && value <= target + margin;
   };
 
   useInterval(
     () => {
-      // Every 1/3 of a real second, increment the count
-      let prev = prevTime ? prevTime : Date.now();
-      let diffTime = Date.now() - prev;
-      let newMilliTime = timeInMilliseconds + diffTime;
-      let newTime: timeFace = toTime(newMilliTime);
-      setPrevTime(Date.now());
-      setTimeInMilliseconds(newMilliTime);
-      setTime(newTime);
-      if (timeInMilliseconds % beatSeparation === 0) {
-        setCount(count + 1);
-        // send Beat
-        try {
-          console.log("beat", count);
-          HapticBluetooth.writeToRemote("1");
-        } catch (e) {
-          console.log("beat");
-        }
-        setTimeout(() => {
-          try {
-            console.log("beat end");
-            HapticBluetooth.writeToRemote("0");
-          } catch (e) {
-            console.log("beat end");
-          }
-        }, 190);
-        console.log(
-          "Beat",
-          count,
-          "Time: " +
-            time?.minutes +
-            ":" +
-            time?.seconds +
-            ":" +
-            time?.milliseconds
-        );
+      if (count % 4 == 0) {
+        HapticBluetooth.writeToRemote("2");
+        console.log("DAAAAAAAAAAAAAAAAAH");
+      } else {
+        HapticBluetooth.writeToRemote("1");
+        console.log("DUH");
       }
-      if (timeInMilliseconds >= 20000) {
-        handleTime();
-        console.log("reset, im bord");
-        resetTimer();
-      }
-      setCount(normalizeCount(count));
+      setTimeout(() => {
+        HapticBluetooth.writeToRemote("0");
+      }, 100);
+      setCount(count + 1);
     },
     isRunning ? interval : null
   );
 
-  // const checkForBeat = () => {
-  //   if (inrange(prevCountTime + beatSeparation, 10, timeInMilliseconds)) {
-  //     setPrevCountTime(timeInMilliseconds);
-  //     setCount(count + 1);
-  //     return true;
-  //   }
-  // };
-  const resetTimer = () => {
-    setCount(0);
-    setTimeInMilliseconds(0);
-    setPrevTime(null);
-    setTime(null);
+  const checkForBeat = () => {
+    if (inRange(prevCountTime + beatSeparation, 100, timeInMilliseconds)) {
+      setPrevCountTime(timeInMilliseconds);
+      setCount(count + 1);
+      return true;
+    }
   };
 
   const handleTime = () => {
     setIsRunning(!isRunning);
+    setTempoChangeEnabled(!tempoChangeEnabled);
+    if (isRunning) setStartText("Start");
+    else setStartText("Stop");
     setPrevTime(0);
+  };
+
+  const increase = (): void => {
+    if (BPM < 240) {
+      console.log("increase");
+      setIsRunning(false);
+      setMetroInterval(interval / 2);
+      console.log(interval);
+      setBPM(BPM * 2);
+      setIsRunning(true);
+    }
+  };
+
+  const decrease = (): void => {
+    if (BPM > 60) {
+      console.log("decrease");
+      setIsRunning(false);
+      setMetroInterval(interval * 2);
+      console.log(interval);
+      setBPM(BPM / 2);
+      setIsRunning(true);
+    }
   };
 
   const toTime = (time: number) => {
@@ -126,22 +125,42 @@ export default function Timer({
     <View>
       <Button
         style={styles.button}
-        text="Hi"
+        text={startText}
         onPress={() => {
           handleTime();
           console.log("hi", isRunning);
         }}
         innerTextColor={colors.primaryContrast}
-        isDisabled={false}
+        isDisabled={!disabled}
       />
-      <Text style={style}>
+      <View style={styles.inline}>
+        <Button
+          style={styles.button}
+          text="↑"
+          onPress={increase}
+          innerTextColor={colors.primaryContrast}
+          isDisabled={tempoChangeEnabled}
+        />
+
+        <Button
+          style={styles.button}
+          text="↓"
+          onPress={decrease}
+          innerTextColor={colors.primaryContrast}
+          isDisabled={tempoChangeEnabled}
+        />
+      </View>
+      <Text style={[styles.screen, { alignSelf: "center", fontSize: 60 }]}>
+        {BPM + " bpm"}
+      </Text>
+      {/* <Text style={style}>  
         {"Time: " +
           time?.minutes +
           ":" +
           time?.seconds +
           ":" +
           time?.milliseconds}
-      </Text>
+      </Text> */}
     </View>
   );
 }

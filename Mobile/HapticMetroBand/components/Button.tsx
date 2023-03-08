@@ -21,7 +21,7 @@ export default function Button({
       style={({ pressed }) => {
         return [
           { backgroundColor: pressed ? colors.primaryDark : (isDisabled ? colors.disabled : colors.primary) },
-          styles.button,
+          style,
         ];
       }}
       onPress={onPress}

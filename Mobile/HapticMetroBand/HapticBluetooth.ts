@@ -7,6 +7,7 @@ interface HapticBluetoothInterface {
     connectToExternalDevice(deviceMAC: string): Promise<boolean>
     isConnected(): Promise<boolean>;
     writeToRemote(data: string): void;
+    disconnet(): void;
 }
 
 export default HapticBluetooth as HapticBluetoothInterface;

@@ -128,6 +128,17 @@ public class HapticBluetooth extends ReactContextBaseJavaModule {
         connectedThread.start();
     }
 
+    @ReactMethod
+    private void disconnect(){
+        if (connectedThread != null) {
+            connectedThread.cancel();
+            connectedThread = null;
+        }
+        if (connectThread != null) {
+            connectThread.cancel();
+            connectThread = null;
+        }
+    }
     private class ConnectThread extends Thread {
         private final BluetoothSocket socket;
         private final BluetoothDevice device;
