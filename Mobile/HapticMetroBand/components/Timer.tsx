@@ -31,7 +31,6 @@ export default function Timer({
   const [prevTime, setPrevTime] = useState<number | null>(null);
   const [timeInMilliseconds, setTimeInMilliseconds] = useState(0);
   const [time, setTime] = useState<timeFace | null>(null);
-  const [prevCountTime, setPrevCountTime] = useState<number>(0);
   const [beatSeparation, setBeatSeparation] = useState<number>(
     (60 / tempo) * 1000
   );
@@ -51,34 +50,58 @@ export default function Timer({
       setPrevTime(Date.now());
       setTimeInMilliseconds(newMilliTime);
       setTime(newTime);
-      if (checkForBeat()) {
+      if (timeInMilliseconds % beatSeparation === 0) {
+        setCount(count + 1);
         // send Beat
         try {
+          console.log("beat", count);
           HapticBluetooth.writeToRemote("1");
         } catch (e) {
           console.log("beat");
         }
         setTimeout(() => {
           try {
+            console.log("beat end");
             HapticBluetooth.writeToRemote("0");
           } catch (e) {
             console.log("beat end");
           }
         }, 190);
-        console.log("Beat", count);
+        console.log(
+          "Beat",
+          count,
+          "Time: " +
+            time?.minutes +
+            ":" +
+            time?.seconds +
+            ":" +
+            time?.milliseconds
+        );
+      }
+      if (timeInMilliseconds >= 20000) {
+        handleTime();
+        console.log("reset, im bord");
+        resetTimer();
       }
       setCount(normalizeCount(count));
     },
     isRunning ? interval : null
   );
 
-  const checkForBeat = () => {
-    if (inrange(prevCountTime + beatSeparation, 100, timeInMilliseconds)) {
-      setPrevCountTime(timeInMilliseconds);
-      setCount(count + 1);
-      return true;
-    }
+  // const checkForBeat = () => {
+  //   if (inrange(prevCountTime + beatSeparation, 10, timeInMilliseconds)) {
+  //     setPrevCountTime(timeInMilliseconds);
+  //     setCount(count + 1);
+  //     return true;
+  //   }
+  // };
+  const resetTimer = () => {
+    setCount(0);
+    setTimeInMilliseconds(0);
+    setPrevTime(null);
+    setTime(null);
   };
+
   const handleTime = () => {
     setIsRunning(!isRunning);
     setPrevTime(0);
