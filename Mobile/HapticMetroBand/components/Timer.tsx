@@ -1,5 +1,11 @@
 import React from "react";
-import { DatePickerIOSBase, Pressable, TargetedEvent, Text, View } from "react-native";
+import {
+  DatePickerIOSBase,
+  Pressable,
+  TargetedEvent,
+  Text,
+  View,
+} from "react-native";
 import colors from "../Colors";
 import styles from "../Styles";
 import { useState } from "react";
@@ -34,7 +40,6 @@ export default function Timer({
   const [prevTime, setPrevTime] = useState<number | null>(null);
   const [timeInMilliseconds, setTimeInMilliseconds] = useState(0);
   const [time, setTime] = useState<timeFace | null>(null);
-  const [prevCountTime, setPrevCountTime] = useState<number>(0);
   const [beatSeparation, setBeatSeparation] = useState<number>(
     (60 / tempo) * 1000
   );
@@ -45,7 +50,6 @@ export default function Timer({
   const inRange = (target: number, margin: number, value: number) => {
     return target - margin <= value && value <= target + margin;
   };
-
 
   useInterval(
     () => {
@@ -81,26 +85,26 @@ export default function Timer({
   };
 
   const increase = (): void => {
-    if (BPM < 240){
-      console.log('increase');
+    if (BPM < 240) {
+      console.log("increase");
       setIsRunning(false);
       setMetroInterval(interval / 2);
       console.log(interval);
       setBPM(BPM * 2);
       setIsRunning(true);
     }
-  }
+  };
 
   const decrease = (): void => {
     if (BPM > 60) {
-      console.log('decrease');
+      console.log("decrease");
       setIsRunning(false);
       setMetroInterval(interval * 2);
       console.log(interval);
       setBPM(BPM / 2);
       setIsRunning(true);
     }
-  }
+  };
 
   const toTime = (time: number) => {
     let milliseconds = time % 1000,
@@ -145,9 +149,10 @@ export default function Timer({
           innerTextColor={colors.primaryContrast}
           isDisabled={tempoChangeEnabled}
         />
-
       </View>
-      <Text style={[styles.screen, {alignSelf: "center", fontSize: 60}]}>{BPM + " bpm"}</Text>  
+      <Text style={[styles.screen, { alignSelf: "center", fontSize: 60 }]}>
+        {BPM + " bpm"}
+      </Text>
       {/* <Text style={style}>  
         {"Time: " +
           time?.minutes +
