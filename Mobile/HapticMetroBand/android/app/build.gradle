@@ -125,6 +125,7 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    // compileSdkVersion 31
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -134,7 +135,9 @@ android {
     defaultConfig {
         applicationId 'com.hapticmetroband'
         minSdkVersion rootProject.ext.minSdkVersion
+        // minSdkVersion 31
         targetSdkVersion rootProject.ext.targetSdkVersion
+        // targetSdkVersion 31
         versionCode 1
         versionName "1.0.0"
     }
