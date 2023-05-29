@@ -2,21 +2,23 @@ import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 import numpy as np
 
-bpm60Metroband = np.loadtxt("./60bpm.txt", delimiter="\n")
-bpm120Metroband = np.loadtxt("./120bpm.txt", delimiter="\n")
-bpm240Metroband = np.loadtxt("./240bpm.txt", delimiter="\n")
+bpm60Metroband = np.loadtxt("./60bpm.txt")
+bpm120Metroband = np.loadtxt("./120bpm.txt")
+bpm240Metroband = np.loadtxt("./240bpm.txt")
+bpm240RadioMetroband = np.loadtxt("./radio_bpm/240.txt")
 
-bpm60Computer = np.loadtxt("./60met.txt", delimiter="\n")
-bpm120Computer = np.loadtxt("./120met.txt", delimiter="\n")
-bpm240Computer = np.loadtxt("./240met.txt", delimiter="\n")
+bpm60Computer = np.loadtxt("./60met.txt")
+bpm120Computer = np.loadtxt("./120met.txt")
+bpm240Computer = np.loadtxt("./240met.txt")
 
 bpmData = [(bpm60Metroband, "Interval lengths for 60 BPM (Haptic Metroband)"), 
            (bpm120Metroband, "Interval lengths for 120 BPM (Haptic Metroband)"), 
            (bpm240Metroband, "Interval lengths for 240 BPM (Haptic Metroband)"), 
            (bpm60Computer, "Interval lengths for 60 BPM (Computer)"), 
            (bpm120Computer, "Interval lengths for 120 BPM (Computer)"), 
-           (bpm240Computer, "Interval lengths for 240 BPM (Computer)")]
-graph = 5
+           (bpm240Computer, "Interval lengths for 240 BPM (Computer)"),
+           (bpm240RadioMetroband, "Interval lengths for 240 BPM (Metroband, Radio Module)")]
+graph = 6
 
 plt.style.use('ggplot')
 

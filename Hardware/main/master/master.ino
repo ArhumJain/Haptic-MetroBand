@@ -35,21 +35,25 @@ void loop() {
   //     interval = data;
   //   }
   // }
+//  Serial.println(radio.available());
   if (running) {
     // When beat happens
     if (millis() - previousMillis >= interval) {
       previousSeparationMillis = millis();
       if (counter != 3) {
         radio.write(powerSignals+1, sizeof(char));
+//        Serial.println("writing 1");
         counter++;
       } else {
         radio.write(powerSignals+2, sizeof(char));
+//        Serial.println("writing 2");
         counter = 0;
       }
       previousMillis = millis();
     }
     if (millis() - previousSeparationMillis >= 100) {
       radio.write(powerSignals, sizeof(char));
+//      Serial.println("writing 0");
     }
   }
 }
